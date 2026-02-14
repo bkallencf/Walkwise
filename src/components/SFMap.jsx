@@ -1,20 +1,25 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Script from "next/script";
 
 export default function SFMap({ searchAddress }) {
-    const mapRef = useRef(null);
-    const mapDiv = useRef(null);
-    const markerRef = useRef(null); // TODO: red marker
-    const boundsRef = useRef(null);
-    const geoCoderRef = useRef(null);
+    const mapRef = useRef(null);      // The map itself
+    const mapDiv = useRef(null);      // Box for the map to sit in
+    const markerRef = useRef(null);   // Red marker for the user's point
+    const boundsRef = useRef(null);   // Bounds of the map for checking address validity
+    const geoCoderRef = useRef(null); // Turns addresses into coords
 
+    // Map boundary corners
     const SFBounds = {
         north: 37.83,
         south: 37.67,
         east: -122.35,
         west: -122.525,
     };
+
+    // These are for the nearby locations to a user's given point
+    const [placesData, setPlacesData] = useState(null);
+    const placeMarkers = useRef([]);
 
     function initializeMap() {
         if (!window.google || !mapDiv.current) return; // Ensures the website has loaded along with the Google script
@@ -40,11 +45,15 @@ export default function SFMap({ searchAddress }) {
     }
 
 
-    // Takes in an address from the search bar, converts it into lat & lng, and verifies it's w/in the bounds
+    /**
+     * Takes in an address from the search bar, converts it into lat & lng, and verifies it's w/in the bounds
+     * Then, calculates 20 of each nearby location based on categories (grocery_store, school, park, shopping_mall)
+     */
+
     useEffect(() => {
         if (!searchAddress || !window.google || !geoCoderRef.current || !boundsRef.current) return;
 
-        // Converts the address
+        // Converts the address into lat/lng coords and checks address validity
         geoCoderRef.current.geocode({ address: searchAddress }, (results, status) => {
             if (status !== "OK" || !results || results.length === 0) {
                 return;
@@ -53,16 +62,61 @@ export default function SFMap({ searchAddress }) {
             const location = results[0].geometry.location; // lat/lng
 
             // Checks that the given address is w/in the bounds
-            const inside = boundsRef.current.contains(location);
-            if (!inside) {
+            if (!boundsRef.current.contains(location)) {
                 return;
             }
 
             // Moves the map to the address
+            mapRef.current.setZoom(16);
             mapRef.current.setCenter(location);
             markerRef.current.setPosition(location);
-            mapRef.current.setZoom(16);
+
+            const lat = location.lat();
+            const lng = location.lng();
+
+            // Finds the nearest locations fitting some category - 20 for each
+            fetch("/api/places", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                cache: "no-store",
+                body: JSON.stringify({ lat, lng }),
+            })
+            .then((res) =>
+                res.text().then((text) => ({ ok: res.ok, status: res.status, text }))
+            )
+            .then(({ ok, status, text }) => {
+                if (!ok) {
+                    return;
+                }
+                const data = JSON.parse(text);
+                setPlacesData(data);
+
+                // Clear out old markers on the map
+                placeMarkers.current.forEach((mark) => mark.setMap(null));
+                placeMarkers.current = [];
+
+                // Put each marker on the map
+                Object.values(data).forEach((placesArray) => {
+                    placesArray.forEach((place) => {
+                        const lat = place.location?.latitude;
+                        const lng = place.location?.longitude;
+
+                        if (typeof lat !== "number" || typeof lng !== "number") return;
+
+                        const marker = new window.google.maps.Marker({
+                            position: { lat, lng },
+                            map: mapRef.current,
+                            icon: {
+                                url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                            }
+                        });
+
+                        placeMarkers.current.push(marker);
+                    });
+                });
+            });
         });
+
     }, [searchAddress]);
 
     return (
@@ -71,6 +125,12 @@ export default function SFMap({ searchAddress }) {
             onLoad={initializeMap} />
             {/* Container for the map */}
             <div ref={mapDiv} style={{ width: "100%", height: "91.5vh" }} />
+            {/* Shows each nearby location */}
+            {/* <div style={{ padding: 12, maxHeight: 240, overflow: "auto" }}>
+                <pre style={{ whiteSpace: "pre-wrap" }}>
+                    {placesData ? JSON.stringify(placesData, null, 2) : ""}
+                </pre>
+            </div> */}
         </>
     );
 }

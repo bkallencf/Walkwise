@@ -63,14 +63,14 @@ export async function POST(request) {
     }
 
     // Writes to a place-debug.json file locally for debugging
-    const filePath = path.join(process.cwd(), "places-debug.json");
+    // const filePath = path.join(process.cwd(), "places-debug.json");
 
     // Overwrites the file everytime a new origin point is calculated
-    fs.writeFileSync(
-        filePath,
-        JSON.stringify(debugEntry, null, 2),
-        "utf-8"
-    );
+    // fs.writeFileSync(
+    //     filePath,
+    //     JSON.stringify(debugEntry, null, 2),
+    //     "utf-8"
+    // );
 
     const scores = calculateWalkability(nearbyLocations, routesToPoints);
 

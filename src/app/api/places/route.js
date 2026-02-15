@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { calculateWalkability } from "@/lib/calcWalkability";
 
 // Scans in a ~1.5 mile radius for groceries, parks, schools, and shopping centers
 export async function POST(request) {
@@ -64,9 +65,12 @@ export async function POST(request) {
         "utf-8"
     );
 
+    const scores = calculateWalkability(nearbyLocations, routesToPoints);
+
     return Response.json({
         nearbyLocations,
         routesToPoints,
+        scores,
     });
 }
 

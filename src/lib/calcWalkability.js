@@ -10,11 +10,11 @@ export function calculateWalkability(nearbyLocations, routesToPoints) {
 
         // Takes in the 5 closest locations at most and ignores the rest
         for (let i = 0; i < distanceArray.length && i < 5; i++) {
-            sectionScore += distanceArray[i];
+            sectionScore += 5000 - distanceArray[i];
         }
         
         // Dividing by 5 rewards areas that are close to many things
-        sectionScore = (sectionScore / 5) / 100;
+        sectionScore = (sectionScore / 5) / 5000;
         scores[category] = sectionScore;
     });
     
@@ -26,7 +26,7 @@ export function calculateWalkability(nearbyLocations, routesToPoints) {
             scores.total += scores[category]*weights[category];
         }
     });
-    scores.total = scores.total / scores.length;
+    scores.total = scores.total / Object.keys(scores).length;
 
     return scores;
 }
@@ -48,8 +48,8 @@ export function buildDistanceMap(nearbyLocations, routesToPoints) {
             }
         }
 
-        categoryDistanceMap[type] = distances;
+        categories[type] = distances;
     }
 
-    return categoryDistanceMap;
+    return categories;
 }

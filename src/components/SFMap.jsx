@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Script from "next/script";
 
-export default function SFMap({ searchAddress }) {
+export default function SFMap({ searchAddress, onScores }) {
     const mapRef = useRef(null);      // The map itself
     const mapDiv = useRef(null);      // Box for the map to sit in
     const markerRef = useRef(null);   // Red marker for the user's point
@@ -18,7 +18,6 @@ export default function SFMap({ searchAddress }) {
     };
 
     // These are for the nearby locations to a user's given point
-    const [placesData, setPlacesData] = useState(null);
     const placeMarkers = useRef([]);
 
     function initializeMap() {
@@ -73,7 +72,7 @@ export default function SFMap({ searchAddress }) {
             const lat = location.lat();
             const lng = location.lng();
 
-            // Finds the nearest locations fitting some category - 20 for each
+            // Finds the nearest locations fitting some category - 10 for each
             fetch("/api/places", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -82,10 +81,13 @@ export default function SFMap({ searchAddress }) {
             })
             .then(res => res.json())
             .then((payload) => {
-                const points = payload.nearbyLocations;
-                const routes = payload.routesToPoints;
+                const points = payload.nearbyLocations; // Locations that are close by
+                const routes = payload.routesToPoints;  // Distances and other information about close locations
+                const scores = payload.scores;          // Walkability scores for various types of locations
 
-                setPlacesData(points);
+                if (typeof onScores === "function") {
+                    onScores(scores ?? null);
+                }
 
                 // Clear out old markers on the map
                 placeMarkers.current.forEach((mark) => mark.setMap(null));

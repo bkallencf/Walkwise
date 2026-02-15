@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 import SFMap from "./SFMap";
+import SideBar from "../components/SideBar";
 
 export default function SearchBar() {
     const [address, setAddress] = useState("");
+    const [scores, setScores] = useState(null);
 
     function lookUpAddress(event) {
         event.preventDefault();
@@ -21,10 +23,10 @@ export default function SearchBar() {
                     placeholder="Type an address"
                     style={{ flex: 1, padding: 10 }}
                 />
-                <button type="submit" style={{ padding: "10px 12px" }}>Search</button>
+                <button type="submit" style={{ padding: "10px 12px", background: "#2e74e6" }}>Search</button>
             </form>
-
-            <SFMap searchAddress={address} />
+            <SideBar scores={scores}/>
+            <SFMap searchAddress={address} onScores={setScores}/>
         </>
     );
 }

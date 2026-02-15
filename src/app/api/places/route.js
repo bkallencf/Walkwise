@@ -56,10 +56,10 @@ export async function POST(request) {
             distancesAlignedByIndex: removedDupesDistances
         };
 
-        debugEntry.categories[queryLocations[i]] = {
-            removedDupesPlaces,
-            walkingDistancesAlignedByIndex: removedDupesDistances
-        };
+        // debugEntry.categories[queryLocations[i]] = {
+        //     removedDupesPlaces,
+        //     walkingDistancesAlignedByIndex: removedDupesDistances
+        // };
     }
 
     // Writes to a place-debug.json file locally for debugging

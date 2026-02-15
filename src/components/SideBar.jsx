@@ -25,7 +25,7 @@ export default function SideBar({ scores }) {
                           transform: open ? "translateX(0)" : "translateX(-105%)", transition: "transform 200ms ease", padding: 16,
                           boxSizing: "border-box", fontFamily: "Courier New" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ fontWeight: 600, color: "white" }}>[Placeholder_Name]</div>
+                    <div style={{ fontWeight: 600, color: "white" }}>Wisewalk.tech</div>
                     <button type="button" onClick={() => setOpen(false)} style={{ border: "1px solid #ccc",
                             background: "white", borderRadius: 8, padding: "6px 10px", cursor: "pointer" }}
                             aria-label="Close sidebar">
@@ -34,7 +34,7 @@ export default function SideBar({ scores }) {
                 </div>
                 <div style={{ marginTop: 12, color: "white" }}>
                     {scores == null ? (
-                        <p>Welcome to [Placeholder]! Use the search bar above to find alternative locales close to home, 
+                        <p>Welcome to Wisewalk.tech! Use the search bar above to find alternative locales close to home, 
                             or view scores to see how walkable your future home is.
                         </p>
                     ) : (

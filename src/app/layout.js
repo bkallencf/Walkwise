@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Walkable City Project",
+  title: "Wisewalk",
   description: "SF Hacks 2026 Project",
 };
 

@@ -1,4 +1,4 @@
-### Wisewalk React Website
+### Walkwise React Website
 
 Compare and contrast how walkable your area is near instantly and discover loads of different locales across your neighborhood. Or, if you're in the market to rent/buy, this site can get you acquainted with important services and chart paths to the closest ones. By enabling the heat map, you can gain also visualize which areas are the most friendly for pedestrians, and answer if a car is truly necessary there.
 
@@ -8,4 +8,4 @@ To use this site, type an address, location name, or coordinates into the upper 
 
 This project was developed during SF Hacks 2026 by Benji Kallen under the theme "Tech for a Greener Good." Currently, this site relies on Google Maps APIs and, under the current assumptions, only be around temporarily. This project does not have any client dependencies. The site can be found here:
 
-www.Wisewalk.tech
+www.Walkwise.tech

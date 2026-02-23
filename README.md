@@ -4,8 +4,8 @@ Compare and contrast how walkable your area is near instantly and discover loads
 
 ### How to Use
 
-To use this site, type an address, location name, or coordinates into the upper search bar. Then, click on some of the green markers to learn more about what important services are in the area. Walkability scores are also shown in the left sub-menu, which lie between 0 and 1, the higher the score being better. It also breaks down the aggregate score into several smaller scores which tell you how easy it is to walk to that particular type of location in the area.
+To use this site, type an address, location name, or coordinates into the upper search bar. Then, click on some of the green markers to learn more about what important services are in the area. Walkability scores are also shown in the left sub-menu, which lie between 0 and 1; the higher the score being better. It also breaks down the aggregate score into several smaller scores, which tell you how easy it is to walk to that particular type of location in the area.
 
-This project was developed during SF Hacks 2026 by Benji Kallen under the theme "Tech for a Greener Good." Currently, this site relies on Google Maps APIs and, under the current assumptions, only be around temporarily. This project does not have any client dependencies. The site can be found here:
+This project was developed during SF Hacks 2026 by Benji Kallen under the theme "Tech for a Greener Good." Currently, this site relies on Google Maps APIs. This project does not have any client dependencies. The site can be found here:
 
 www.Walkwise.tech

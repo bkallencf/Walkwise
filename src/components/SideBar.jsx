@@ -37,8 +37,8 @@ export default function SideBar({ scores }) {
                         <p>
                             Welcome to Walkwise.tech! Use the search bar above to find alternative locales close to home, 
                             or view scores to see how walkable your future home is.
-                            <br>
-                            <br>
+                            <br />
+                            <br />
                             We apologize for the inconvenience, but this site has been shut down for the foreseeable future.
                         </p>
                     ) : (

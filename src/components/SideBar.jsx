@@ -34,8 +34,12 @@ export default function SideBar({ scores }) {
                 </div>
                 <div style={{ marginTop: 12, color: "white" }}>
                     {scores == null ? (
-                        <p>Welcome to Walkwise.tech! Use the search bar above to find alternative locales close to home, 
+                        <p>
+                            Welcome to Walkwise.tech! Use the search bar above to find alternative locales close to home, 
                             or view scores to see how walkable your future home is.
+                            <br>
+                            <br>
+                            We apologize for the inconvenience, but this site has been shut down for the foreseeable future.
                         </p>
                     ) : (
                     <>
